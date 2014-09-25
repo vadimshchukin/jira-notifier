@@ -36,15 +36,19 @@ class Application:
             os.mkdir(directoryName) # then create it
         self.updated = {} # projects activity streams last updated timestamps
         iconFileName = os.path.abspath(os.path.join(os.path.dirname(__file__), 'icon.png')) # get 'icon.png' file name
-        self.indicator = appindicator.Indicator('jira', iconFileName, appindicator.CATEGORY_APPLICATION_STATUS) # create GNOME indicator 
+        # create GNOME indicator 
+        self.indicator = appindicator.Indicator('jira', iconFileName, appindicator.CATEGORY_APPLICATION_STATUS) 
         self.indicator.set_status(appindicator.STATUS_ACTIVE) # set initial active status
-        self.opener = urllib2.build_opener(urllib2.HTTPCookieProcessor(cookielib.CookieJar())) # create URL opener using cookie jar
+        # create URL opener using cookie jar
+        self.opener = urllib2.build_opener(urllib2.HTTPCookieProcessor(cookielib.CookieJar())) 
 
     def logIn(self, userName, passWord): # log in JIRA
         request = urllib2.Request(self.trackerURL + '/rest/auth/latest/session') # construct request URL
-        request.add_header('Content-Type', 'application/json') # all JIRA's REST communication should be in a JSON format
+        # all JIRA's REST communication should be in a JSON format
+        request.add_header('Content-Type', 'application/json')
         request.add_header('Accept', 'application/json') # accept data in JSON
-        request.add_data(json.dumps({'username': userName, 'password': passWord})) # encode credentials to JSON and store in request
+        # encode credentials to JSON and store in request
+        request.add_data(json.dumps({'username': userName, 'password': passWord}))
         webFile = self.opener.open(request) # perform request and open output stream
         webFile.close() # close it permanently as we are just authorizing
 
@@ -84,15 +88,18 @@ class Application:
                 body = feedEntry['summary_detail']['value'] # else just get plain text
             for link in feedEntry['links']: # loop through the entry links
                 if link['rel'] == 'photo': # check for photo link
-                    match = re.search(r'avatarId=(?P<avatarIdentifier>\d+)', link.href) # get avatar id from link reference
+                    # get avatar id from link reference
+                    match = re.search(r'avatarId=(?P<avatarIdentifier>\d+)', link.href)
                     avatarIdentifier = match.group('avatarIdentifier')
-                    avatarFileName = os.path.join(os.path.dirname(__file__), 'avatars', '%s.png' % avatarIdentifier) # get avatar file name
+                    # get avatar file name
+                    avatarFileName = os.path.join(os.path.dirname(__file__), 'avatars', '%s.png' % avatarIdentifier) 
                     if not os.path.isfile(avatarFileName): # if avatar don't exists
                         request = urllib2.Request(link.href) # construct request for avatar image
                         webFile = self.opener.open(request) # open it
                         open(avatarFileName, 'wb').write(webFile.read()) # write binary data to avatar file
                     break
-            notification = pynotify.Notification(title, body, os.path.abspath(avatarFileName)) # construct NotifyOSD notification
+            # construct NotifyOSD notification
+            notification = pynotify.Notification(title, body, os.path.abspath(avatarFileName))
             notification.show() # show it
         for feedEntry in feedEntries: # loop through activity stream entries
             # if activity stream has been gathered for the first time or it was changed
@@ -106,13 +113,14 @@ class Application:
             self.processFeed(key) # process current project key
         for queryIndex in xrange(len(self.queries)): # loop through issue queries
             print 'executing query %s of %s' % ((queryIndex + 1), len(self.queries)) # print log message
-            # request issues by JQL filter
-            resourceURL = self.trackerURL + '/rest/api/2/search?%s' % urllib.urlencode({'jql': self.queries[queryIndex]})
+            parameters = urllib.urlencode({'jql': self.queries[queryIndex]}) # GET parameteres
+            resourceURL = self.trackerURL + '/rest/api/2/search?%s' % parameters # request issues by JQL filter
             webFile = self.opener.open(urllib2.Request(resourceURL)) # perform request and open output stream
             response = json.loads(webFile.read()) # parse JSON
             webFile.close()
             for issue in response['issues']: # loop through response issues
-                title = '%s %s' % (issue['key'], issue['fields']['summary'][:32]) # get menu item title, shorten summary to 32 characters
+                # get menu item title, shorten summary to 32 characters
+                title = '%s %s' % (issue['key'], issue['fields']['summary'][:32])
                 item = gtk.MenuItem(title) # create menu item
                 # connect menu item with function handler, binding it with appropriate URL
                 item.connect('activate', self.handleMenuItemSelect, '%s/browse/%s' % (self.trackerURL, issue['key']))
