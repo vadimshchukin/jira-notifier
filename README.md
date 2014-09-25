@@ -5,7 +5,7 @@ jira-notifier is an Ubuntu notification application for a JIRA bug tracker.
 
   - Performs JIRA authorization.
   - Gets activity streams in Atom format and parses it.
-  - Gets issue lists by input JQL quries and creates an indicator applet with menu of issues.
+  - Gets issue lists by input JQL queries and creates an indicator applet with menu of issues.
 
 In order to use it you should specify:
   - -l option. It's a JIRA bug tracker URL.
