@@ -35,7 +35,8 @@ class Application:
         if not os.path.isdir(directoryName): # if it's not exists
             os.mkdir(directoryName) # then create it
         self.updated = {} # projects activity streams last updated timestamps
-        iconFileName = os.path.abspath(os.path.join(os.path.dirname(__file__), 'icon.png')) # get 'icon.png' file name
+        # get 'icon.png' file name
+        iconFileName = os.path.abspath(os.path.join(os.path.dirname(__file__), 'icon.png'))
         # create GNOME indicator 
         self.indicator = appindicator.Indicator('jira', iconFileName, appindicator.CATEGORY_APPLICATION_STATUS) 
         self.indicator.set_status(appindicator.STATUS_ACTIVE) # set initial active status
@@ -130,7 +131,7 @@ class Application:
         menu.append(item) # append it
         menu.show_all() # show all items and menu itself
         self.indicator.set_menu(menu) # set indicator menu
-        gobject.timeout_add_seconds(60, self.update) # schedule function invocation by timer
+        gobject.timeout_add_seconds(self.interval, self.update) # schedule function invocation by timer
 
     def run(self): # main method
         # construct argument parser
@@ -140,10 +141,12 @@ class Application:
         argumentParser.add_argument('-p', '--password', required=True, help='authorization password') # JIRA password
         argumentParser.add_argument('-k', '--keys', help='project keys') # list of project keys separated by comma
         argumentParser.add_argument('-q', '--queries', help='JQL queries file') # input JQL queries file
+        argumentParser.add_argument('-i', '--interval', type=int, help='update interval') # timer update interval
         arguments = argumentParser.parse_args() # parse command line arguments
         self.trackerURL = arguments.locator # get JIRA URL
         self.keys = arguments.keys.split(',') # get project keys
         self.queries = open(arguments.queries).read().split('\n') # read and split JQL queries
+        self.interval = arguments.interval
         print 'logging in as %s' % arguments.username # print log message
         self.logIn(arguments.username, arguments.password) # log in JIRA
         self.update() # first update of data

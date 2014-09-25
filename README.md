@@ -1,25 +1,26 @@
 jira-notifier
 =========
 
-jira-notifier is a notification application for a JIRA bug tracker for Ubuntu.
+jira-notifier is an Ubuntu notification application for a JIRA bug tracker.
 
-  - JIRA authorization
-  - Activity streams Atom feed parsing
-  - Indicator applet with menu of issues
+  - Performs JIRA authorization.
+  - Gets activity streams in Atom format and parses it.
+  - Gets issue lists by input JQL quries and creates an indicator applet with menu of issues.
 
 In order to use it you should specify:
   - -l option. It's a JIRA bug tracker URL.
   - -u option. JIRA username.
   - -p option. JIRA password.
   - -k option. List of project keys separated by comma.
-  - -q option. Input JQL queries file. One line of this file should contain one query.
+  - -q option. Input JQL queries file. One line corresponds to one query.
+  - -i option. Timer interval in seconds.
 
 Example:
 ```sh
-jira-notifier.py -l'https://www.bugtracker.net' -u'username' -p'password' -k'KEY1,KEY2' -qqueries.jql >log.txt
+jira-notifier.py -l'https://www.bugtracker.net' -u'username' -p'password' -k'KEY1,KEY2' -q'queries.jql' -i60 >log.txt
 ```
 
-Firstly application tries to log in JIRA using your credentials, after that it'll try to get activity stream feed for each project key every minute - you'll be notified of new activity events using standard Ubuntu NotifyOSD (application tries to load user avatars in 'avatars' directory). Simultaneously applications tries to get an issue list from JQL query and show it in an indicator menu with links leading you to an issue tracker page.
+Application tries to log in JIRA using your credentials, then gets an activity stream feed for each project key every -i seconds - you'll be notified of new activity events using standard Ubuntu NotifyOSD notifications (it'll contain event author avatar image, title and summary). Simultaneously application gets an issue list executing JQL queries and show that list in an indicator menu with links leading you to an issue tracker page.
 
 Version
 ----
@@ -33,18 +34,15 @@ jira-notifier depends on the following commonly used python packages:
 
 * [gtk] - GTK bindings
 * [gobject] - GObject library
-* [appindicator] - great UI boilerplate for modern web apps
-* [pynotify] - evented I/O for the backend
-* [feedparser] - fast node.js network app framework [@tjholowaychuk]
-* [pyquery] - awesome keyboard handler lib by [@thomasfuchs]
+* [appindicator] - GNOME indicators
+* [pynotify] - Ubuntu NotifyOSD
+* [feedparser] - Atom feed parser
+* [pyquery] - jQuery-like library for Python
 
 License
 ----
 
 GNU GPL 2
-
-
-**Free Software, Hell Yeah!**
 
 [gtk]:http://www.pygtk.org/
 [gobject]:https://pypi.python.org/pypi/PyGObject/
