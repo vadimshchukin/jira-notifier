@@ -17,32 +17,22 @@ In order to use it you should specify:
 
 Example:
 ```sh
-jira-notifier.py -l'https://www.bugtracker.net' -u'username' -p'password' -k'KEY1,KEY2' -q'queries.jql' -i60 >log.txt
+jira-notifier.py -l'https://www.bugtracker.net' -u'username' -p'password' -k'KEY1,KEY2' -q'queries.jql' -i60
 ```
 
-Application tries to log in JIRA using your credentials, then gets an activity stream feed for each project key every -i seconds - you'll be notified of new activity events using standard Ubuntu NotifyOSD notifications (it'll contain event author avatar image, title and summary). Simultaneously application gets an issue list executing JQL queries and show that list in an indicator menu with links leading you to an issue tracker page.
+Application tries to log in JIRA using your credentials, then gets an activity stream feed for each project key every -i seconds - you'll be notified of new activity events through standard Ubuntu NotifyOSD notifications (notification will contain event's author's avatar image, title and summary). Simultaneously application gets an issue list executing JQL queries and shows that list in an indicator menu with links that are leading you to an issue tracker page.
 
-Version
-----
-
-0.1
-
-Tech
+Packages
 -----------
 
 jira-notifier depends on the following commonly used python packages:
 
-* [gtk] - GTK bindings
-* [gobject] - GObject library
-* [appindicator] - GNOME indicators
-* [pynotify] - Ubuntu NotifyOSD
-* [feedparser] - Atom feed parser
-* [pyquery] - jQuery-like library for Python
-
-License
-----
-
-GNU GPL 2
+* [gtk] - GTK bindings.
+* [gobject] - GObject library.
+* [appindicator] - GNOME indicators.
+* [pynotify] - Ubuntu NotifyOSD.
+* [feedparser] - Atom feed parser.
+* [pyquery] - jQuery-like library for Python.
 
 [gtk]:http://www.pygtk.org/
 [gobject]:https://pypi.python.org/pypi/PyGObject/
