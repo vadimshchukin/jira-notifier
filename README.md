@@ -1,26 +1,44 @@
 jira-notifier
 =========
 
-jira-notifier is an Ubuntu notification application for a JIRA bug tracker.
+jira-notifier is the Linux desktop notifier for JIRA issue tracker.
 
   - Performs JIRA authorization.
-  - Gets activity streams in Atom format and parses it.
-  - Gets issue lists by input JQL queries and creates an indicator applet with menu of issues.
+  - Fetches activity streams in Atom format and parses it.
+  - Fetches issue lists by JQL issue queries and creates an indicator applet with menu of issues.
 
 In order to use it you should specify:
-  - -l option. It's a JIRA bug tracker URL.
-  - -u option. JIRA username.
-  - -p option. JIRA password.
+  - -j option. It's a JIRA issue tracker URL.
+  - -u option. JIRA username. Optional parameter.
+  - -p option. JIRA password. Optional parameter.
   - -k option. List of project keys separated by comma.
-  - -q option. Input JQL queries file. One line corresponds to one query.
-  - -i option. Timer interval in seconds.
+  - -q option. JQL issue queries file. One line corresponds to one query.
+  - -i option. Timer interval in seconds. The default value is 60.
+  - -a option. JIRA avatars directory name. The default is jira-avatars.
+  - -c option. Indicator icon file name. The default is jira-notifier.png.
 
 Example:
 ```sh
-jira-notifier.py -l'https://www.bugtracker.net' -u'username' -p'password' -k'KEY1,KEY2' -q'queries.jql' -i60
+trackerURL='https://jira.atlassian.com'
+username='' # optional
+password='' # optional
+projectKeys='JRA,CONF,STASH'
+queriesFile='jira-notifier.jql'
+updateInterval=60
+avatars='jira-avatars'
+icon='jira-notifier.png'
+logFile='jira-notifier.txt'
+
+cd `dirname "$0"`
+./jira-notifier.py >"$logFile" \
+    -j"$trackerURL" \
+    -k"$projectKeys" -q"$queriesFile" -i"$updateInterval" \
+    -a"$avatars" -c"$icon"
+# uncomment the next line in order to use authorization
+#    -u"$username" -p"$password"
 ```
 
-Application tries to log in JIRA using your credentials, then gets an activity stream feed for each project key every -i seconds - you'll be notified of new activity events through standard Ubuntu NotifyOSD notifications (notification will contain event's author's avatar image, title and summary). Simultaneously application gets an issue list executing JQL queries and shows that list in an indicator menu with links that are leading you to an issue tracker page.
+Application tries to log in JIRA using your credentials, then gets an activity stream feed for each project key every -i seconds - you'll be notified of new activity events through standard NotifyOSD notifications (notification will contain event's author's avatar image, title and summary). Simultaneously application gets an issue list executing JQL queries and shows that list in an indicator menu with links leading to an issue tracker page.
 
 Packages
 -----------
