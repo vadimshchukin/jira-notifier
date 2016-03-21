@@ -1,12 +1,14 @@
-jira-notifier
-=========
-
+# jira-notifier
+## Overview
 jira-notifier is the Linux desktop notifier for JIRA issue tracker.
 
+Application tries to log in JIRA using your credentials, then gets an activity stream feed for each project key every -i seconds - you'll be notified of new activity events through standard NotifyOSD notifications (notification will contain event's author's avatar image, title and summary). Simultaneously application gets an issue list executing JQL queries and shows that list in an indicator menu with links leading to an issue tracker page.
+## Features
   - Performs JIRA authorization.
   - Fetches activity streams in Atom format and parses it.
   - Fetches issue lists by JQL issue queries and creates an indicator applet with menu of issues.
 
+## Command line arguments
 In order to use it you should specify:
   - -j option. It's a JIRA issue tracker URL.
   - -u option. JIRA username. Optional parameter.
@@ -17,6 +19,7 @@ In order to use it you should specify:
   - -a option. JIRA avatars directory name. The default is jira-avatars.
   - -c option. Indicator icon file name. The default is jira-notifier.png.
 
+## Examples
 Example:
 ```sh
 trackerURL='https://jira.atlassian.com'
@@ -38,19 +41,15 @@ cd `dirname "$0"`
 #    -u"$username" -p"$password"
 ```
 
-Application tries to log in JIRA using your credentials, then gets an activity stream feed for each project key every -i seconds - you'll be notified of new activity events through standard NotifyOSD notifications (notification will contain event's author's avatar image, title and summary). Simultaneously application gets an issue list executing JQL queries and shows that list in an indicator menu with links leading to an issue tracker page.
-
-Packages
------------
-
+## Dependencies
 jira-notifier depends on the following commonly used python packages:
 
-* [gtk] - GTK bindings.
-* [gobject] - GObject library.
-* [appindicator] - GNOME indicators.
-* [pynotify] - Ubuntu NotifyOSD.
-* [feedparser] - Atom feed parser.
-* [pyquery] - jQuery-like library for Python.
+ - [gtk] - GTK bindings.
+ - [gobject] - GObject library.
+ - [appindicator] - GNOME indicators.
+ - [pynotify] - Ubuntu NotifyOSD.
+ - [feedparser] - Atom feed parser.
+ - [pyquery] - jQuery-like library for Python.
 
 [gtk]:http://www.pygtk.org/
 [gobject]:https://pypi.python.org/pypi/PyGObject/
