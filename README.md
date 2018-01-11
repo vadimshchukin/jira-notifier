@@ -1,15 +1,13 @@
 # jira-notifier
 ## Overview
-jira-notifier is the Linux desktop notifier for JIRA issue tracker.
+jira-notifier is a Linux desktop notifier for the [JIRA issue tracker].
 
-Application tries to log in JIRA using your credentials, then gets an activity stream feed for each project key every -i seconds - you'll be notified of new activity events through standard NotifyOSD notifications (notification will contain event's author's avatar image, title and summary). Simultaneously application gets an issue list executing JQL queries and shows that list in an indicator menu with links leading to an issue tracker page.
+The scripts logs into JIRA with your credentials, then fetches an activity stream feed for each project key specified every -i seconds - you'll be notified of new activity events through standard [NotifyOSD] notifications (the notification will contain event's author's avatar image, title and summary). Simultaneously the script fetches an issue list executing [JQL] queries and shows that list in an indicator menu with links leading to the issue's page in JIRA.
 ## Features
-  - Performs JIRA authorization.
-  - Fetches activity streams in Atom format and parses it.
-  - Fetches issue lists by JQL issue queries and creates an indicator applet with menu of issues.
+  - Fetches activity streams and shows desktop notifications for new events.
+  - Fetches issue lists using JQL queries and shows them in an indicator menu.
 
 ## Command line arguments
-In order to use it you should specify:
   - -j option. It's a JIRA issue tracker URL.
   - -u option. JIRA username. Optional parameter.
   - -p option. JIRA password. Optional parameter.
@@ -42,7 +40,7 @@ cd `dirname "$0"`
 ```
 
 ## Dependencies
-jira-notifier depends on the following commonly used python packages:
+jira-notifier depends on the following Python packages:
 
  - [gtk] - GTK bindings.
  - [gobject] - GObject library.
@@ -51,6 +49,9 @@ jira-notifier depends on the following commonly used python packages:
  - [feedparser] - Atom feed parser.
  - [pyquery] - jQuery-like library for Python.
 
+[JIRA issue tracker]:https://www.atlassian.com/software/jira
+[NotifyOSD]:https://wiki.ubuntu.com/NotifyOSD
+[JQL]:https://confluence.atlassian.com/jirasoftwarecloud/advanced-searching-764478330.html
 [gtk]:http://www.pygtk.org/
 [gobject]:https://pypi.python.org/pypi/PyGObject/
 [appindicator]:http://developer.ubuntu.com/api/devel/ubuntu-12.04/c/appindicator/
